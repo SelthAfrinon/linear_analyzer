@@ -1,0 +1,8 @@
+Linear Interceptor todo list
+
+2017-05-15
+	+ Create function to calculate projectile velocity and angle.
+		- Main now calculates velocity and angle.
+	+ Create function to calculate interception course.
+	+ Make main take input from files or from screen.
+	+ Make main write output to files or screen.
