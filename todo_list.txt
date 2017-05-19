@@ -4,5 +4,9 @@ Linear Interceptor todo list
 	+ Create function to calculate projectile velocity and angle.
 		- Main now calculates velocity and angle.
 	+ Create function to calculate interception course.
+		- Main now calculates an interception course.
 	+ Make main take input from files or from screen.
 	+ Make main write output to files or screen.
+	
+2017-05-19
+	+ Program should ask for elapsed time input, or read it from file with other data on incoming projectile.

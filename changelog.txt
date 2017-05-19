@@ -4,3 +4,9 @@ Linear Interceptor changelog
 	- Created Fortran project for Linear Interceptor. Created readme, changelog, and todo_list files.
 	- Added functions to convert from degrees to radians and from radians to degrees.
 	- Main now calculates the speed and angle of a projectile.
+	
+2017-05-18
+	- Main now calculates the horizontal (x) and vertical (y) components of the projectile's speed.
+	
+2017-05-19
+	- Main now calculates the angle and speed an intercepting projectile should be fired at in order to intercept an incoming projectile at a given time.
