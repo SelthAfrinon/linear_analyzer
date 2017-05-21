@@ -10,3 +10,12 @@ Linear Interceptor changelog
 	
 2017-05-19
 	- Main now calculates the angle and speed an intercepting projectile should be fired at in order to intercept an incoming projectile at a given time.
+	
+2017-05-20
+	- Added comments to code. Reorganized for better readability.
+	- Added calculations for time to intercept and projectile speed based on angle.
+		- Added required variables to make these calculations
+		- Added projectile and interceptor slope calculations.
+		- Added projectile y-intercept calculations.
+	- Added branch structure to choose which data about the interceptor is known: time to intercept, angle, or interceptor speed.
+	- Added output formatting.
