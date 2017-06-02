@@ -19,3 +19,17 @@ Linear Interceptor changelog
 		- Added projectile y-intercept calculations.
 	- Added branch structure to choose which data about the interceptor is known: time to intercept, angle, or interceptor speed.
 	- Added output formatting.
+	
+2017-05-22
+	- Added elapsed time calculations and additional constants for "given interceptor speed" calculations.
+	- Added requirement for d/2a > 0; if it is less than 0, the interceptor is not fast enough to reach the projectile.
+	- Fixed mathematic errors in code.
+	
+2017-05-23
+	- Added loop to ask for user input before calculations.
+	
+2017-05-29
+	- Added read/write statements to get user input for incoming projectile properties.
+	
+2017-05-31
+	- Turns out I'm a fool and forgot to add a way for the user input the time between incoming projectile measurements. This has been added now.
