@@ -33,3 +33,6 @@ Linear Interceptor changelog
 	
 2017-05-31
 	- Turns out I'm a fool and forgot to add a way for the user input the time between incoming projectile measurements. This has been added now.
+	
+2017-06-11
+	- Added outer loop and if branch at interceptor property input to allow user to enter new incoming projectile properties.
