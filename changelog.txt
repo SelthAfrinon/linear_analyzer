@@ -36,3 +36,13 @@ Linear Interceptor changelog
 	
 2017-06-11
 	- Added outer loop and if branch at interceptor property input to allow user to enter new incoming projectile properties.
+	
+2017-06-16
+	- Reorganized code to facilitate reading inputs from a file.
+		- created two branches, one for screen input and one for file input.
+		- calculations for incoming projectile and interceptor have been moved into subroutines.
+		- troubleshooting subroutines.
+		
+2017-06-17
+	- Finished adding variable declarations to all subroutines
+	- Tested input-from-screen branch - works fine.
