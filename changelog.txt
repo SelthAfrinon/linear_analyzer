@@ -46,3 +46,13 @@ Linear Interceptor changelog
 2017-06-17
 	- Finished adding variable declarations to all subroutines
 	- Tested input-from-screen branch - works fine.
+	
+2017-06-18
+	- Added file reading statements: open, read, etc.
+	- Added do loop to iterate through all data in input file.
+		- Added statement to check for end-of-file.
+		
+2017-06-20
+	- Added output file processing.
+		- Program asks for output file destination and writes to it.
+	- Program correctly closes opened files.

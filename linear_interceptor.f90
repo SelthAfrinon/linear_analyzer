@@ -4,11 +4,13 @@ program linear_interceptor
     real (kind = ikind) :: rad_to_deg, deg_to_rad                               ! function variables
     real (kind = ikind) :: dist_1, dist_2, ang_1, ang_2, time, x1, x2, y1, y2, b, m1, m2   ! Variables for calculation of point position section of program
     real (kind = ikind) :: proj_speed, proj_angle, proj_dist                               ! Variables for calculation of velocity components
-    real (kind = ikind) :: xi, yi, interceptor_speed, interceptor_angle, e_time       ! Variables for calculation of interception angle
+    real (kind = ikind) :: xi, yi, interceptor_speed, interceptor_angle, e_time, dummy       ! Variables for calculation of interception angle
     real (kind = ikind) :: a, d, c, dx1, dy1, sub_1
-    integer :: known_type, file_read
-    character :: file_name
+    integer :: known_type, file_read, io
+    character (LEN = 20) :: file_name
 
+    1 format(1A6, 1f7.3, 1A21, 1f9.3, 1A21, 1f10.3)
+    2 format(1A18, 1f7.3, 1A21, 1f9.3)
 
     write(*,*) "Would you like to read from a file? (0 for no, 1 for yes): "
     read *, file_read
@@ -35,8 +37,7 @@ program linear_interceptor
                 ang_1 = deg_to_rad(ang_1)
                 ang_2 = deg_to_rad(ang_2)
 
-                call calc_incoming(ang_1, ang_2, x1, y1, dist_1, x2, y2, dist_2, time, m1, b, proj_dist, proj_speed, proj_angle)
-
+                call calc_incoming(ang_1, ang_2, x1, y1, dist_1, x2, y2, time, dist_2, m1, b, proj_dist, proj_speed, proj_angle)
 
                 if (known_type == 0) then
                 ! branch for known time to intercept
@@ -69,18 +70,64 @@ program linear_interceptor
                 write(*,2) "Projectile Speed: ", proj_speed, "   Projectile Angle: ", rad_to_deg(proj_angle)
                 write(*,1) "Time: ", e_time, "   Interceptor Speed: ", interceptor_speed,&
                      "    Interceptor Angle: ", interceptor_angle
-                1 format(1A6, 1f7.3, 1A21, 1f9.3, 1A21, 1f10.3)
-                2 format(1A18, 1f7.3, 1A21, 1f9.3, 1A21, 1f10.3)
+
             end do
             if (known_type == 4) then
                 exit
             end if
         end do
+
     else if (file_read == 1) then
-        write(*,*) "Please enter file name/path: "
+        write(*,*) "Please enter input file name/path: "
         read *, file_name
-        ! need read from file here
-        call calc_incoming(ang_1, ang_2, x1, y1, dist_1, x2, y2, time, dist_2, m1, b, proj_dist, proj_speed, proj_angle)
+        open(10, file = file_name)
+
+        write(*,*) "Please enter output file name/path: "
+        read *, file_name
+        open(11, file = file_name)
+        write(11,*) " PS     PA      TTI    IS     IA"
+
+        do
+            read(10,*, IOSTAT = io) dist_1, ang_1, dist_2, ang_2, time, known_type, dummy
+            if(io < 0) then
+                exit
+            end if
+            ang_1 = deg_to_rad(ang_1)
+            ang_2 = deg_to_rad(ang_2)
+            call calc_incoming(ang_1, ang_2, x1, y1, dist_1, x2, y2, time, dist_2, m1, b, proj_dist, proj_speed, proj_angle)
+
+            if (known_type == 0) then
+            ! branch for known time to intercept
+                e_time = dummy
+                call calc_int_time(xi, yi, x1, y1, x2, y2, time, e_time, interceptor_angle, interceptor_speed)
+                interceptor_angle = rad_to_deg(interceptor_angle)
+
+            else if (known_type == 1) then
+            ! branch for known interception angle
+                interceptor_angle = dummy
+                interceptor_angle = deg_to_rad(interceptor_angle)
+                call calc_int_angle(interceptor_angle, xi, yi, m1, m2, b, y1, y2, time, e_time, interceptor_speed)
+
+            else if (known_type == 2) then
+            ! branch for known interceptor speed
+                interceptor_speed = dummy
+                call calc_int_speed(x1, x2, xi, y1, y2, yi, dx1, dy1,&
+                    interceptor_speed, a, d, c, sub_1, e_time, time, interceptor_angle)
+                interceptor_angle = rad_to_deg(interceptor_angle)
+            end if
+            3 format(1f7.3, 1f8.3, 1f7.3, 1f7.3, 1f7.3)
+            write(11,3) proj_speed, rad_to_deg(proj_angle), e_time, interceptor_speed, interceptor_angle
+
+        end do
+        write(11,*) ""
+        write(11,*) " Key:"
+        write(11,*) " PS = Incoming Projectile Speed"
+        write(11,*) " PA = Incoming Projectile Angle"
+        write(11,*) " TTI = Time To Intercept"
+        write(11,*) " IS = Interceptor Speed"
+        write(11,*) " IA = Interception Angle"
+        close(10)
+        close(11)
     end if
 end program linear_interceptor
 
@@ -89,7 +136,6 @@ subroutine calc_incoming(ang_1, ang_2, x1, y1, dist_1, x2, y2, time, dist_2, m1,
     integer, parameter :: ikind = selected_real_kind(p = 18)
     real (kind = ikind) :: dist_1, dist_2, ang_1, ang_2, time, x1, x2, y1, y2, b, m1   ! Variables for calculation of point position section of program
     real (kind = ikind) :: proj_speed, proj_angle, proj_dist                               ! Variables for calculation of velocity components
-
 
     ! Calculate first point coordinates
     x1 = cos(ang_1)*dist_1
@@ -177,6 +223,6 @@ function rad_to_deg(rad)
     integer, parameter :: ikind = selected_real_kind(p = 18)
     real (kind = ikind) :: pi, rad, rad_to_deg
     pi = 4.0_ikind*atan(1.0_ikind)
-    rad_to_deg = (rad*180.0_ikind/pi)
+    rad_to_deg = (rad*(180.0_ikind)/pi)
 end function rad_to_deg
 
