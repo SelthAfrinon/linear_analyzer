@@ -56,3 +56,8 @@ Linear Interceptor changelog
 	- Added output file processing.
 		- Program asks for output file destination and writes to it.
 	- Program correctly closes opened files.
+	
+2017-06-24
+	- Added outer loop to re-run program from start.
+		- Added statements to exit outer loop.
+	- Added loop around input file branch to ask for another file to process

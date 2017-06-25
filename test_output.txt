@@ -9,4 +9,4 @@
   PA = Incoming Projectile Angle
   TTI = Time To Intercept
   IS = Interceptor Speed
-  IA = Interception angle
+  IA = Interception Angle
